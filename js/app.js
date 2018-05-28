@@ -78,7 +78,6 @@ restart.forEach(function(button) {
         flippedCards = [];
         count = 0;
         pairsMatched = 0;
-        //elapsedTime;
 
         cards.forEach(function(card) {
             card.addEventListener("click", function() {
