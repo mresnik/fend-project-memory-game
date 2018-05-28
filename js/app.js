@@ -140,7 +140,7 @@ const addToList = function(card) {
         }
         increaseCount();
         displayStars();
-        if (pairsMatched === 1) {
+        if (pairsMatched === 8) {
             clearInterval(elapsedTime);
             setTimeout(youWinModal, 600);
         }
