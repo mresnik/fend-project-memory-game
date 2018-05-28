@@ -1,7 +1,11 @@
 /*
  * Create a list that holds all of your cards
  */
-const myDeck=["fa-diamond","fa-paper-plane-o","fa-anchor","fa-bolt","fa-cube","fa-anchor","fa-leaf","fa-bicycle","fa-diamond","fa-bomb","fa-leaf","fa-bomb","fa-bolt","fa-bicycle","fa-paper-plane-o","fa-cube"]
+const myDeck = ["fa-diamond", "fa-paper-plane-o", "fa-anchor", "fa-bolt", "fa-cube",
+    "fa-anchor", "fa-leaf", "fa-bicycle", "fa-diamond", "fa-bomb",
+    "fa-leaf", "fa-bomb", "fa-bolt", "fa-bicycle", "fa-paper-plane-o",
+    "fa-cube"
+];
 
 /*
  * Display the cards on the page
@@ -12,7 +16,8 @@ const myDeck=["fa-diamond","fa-paper-plane-o","fa-anchor","fa-bolt","fa-cube","f
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
-    var currentIndex = array.length, temporaryValue, randomIndex;
+    var currentIndex = array.length,
+        temporaryValue, randomIndex;
 
     while (currentIndex !== 0) {
         randomIndex = Math.floor(Math.random() * currentIndex);
@@ -30,78 +35,83 @@ function shuffle(array) {
 
 let usedTime = 0;
 var elapsedTime = setInterval(calcTime, 1000);
+
 function calcTime() {
     usedTime = usedTime + 1;
     const timeDisplay = document.querySelectorAll(".elapsed");
     timeDisplay.forEach(function(timer) {
-      timer.innerHTML = usedTime;
-      })
-    }
-
-const stopTimer = function stopTimer() {
-      clearInterval(elapsedTime);
-      }
+        timer.innerHTML = usedTime;
+    });
+}
 
 // Set Up The Game
 
-const shuffling = function () {
-  const counter = document.querySelector(".moves");
-  counter.innerHTML = "0";
-  shuffle(myDeck);
-  const deck = document.querySelector(".deck");
-  deck.innerHTML = "";
-  for (let n = 0; n < myDeck.length; n++) {
-    const newCard = document.createElement('li');
+const shuffling = function() {
+    const counter = document.querySelector(".moves");
+    counter.innerHTML = "0";
+    shuffle(myDeck);
+    const deck = document.querySelector(".deck");
+    deck.innerHTML = "";
+    for (let n = 0; n < myDeck.length; n++) {
+        const newCard = document.createElement('li');
         newCard.setAttribute("class", "card");
         newCard.innerHTML = innerHTML(myDeck[n]);
         deck.appendChild(newCard);
-      }
-  }
-
-  let innerHTML = function(whichCard) {
-    return "<i class= \"fa "+ whichCard +"\"></i>";
     }
+};
+
+let innerHTML = function(whichCard) {
+    return "<i class= \"fa " + whichCard + "\"></i>";
+};
 
 //Restart Button
 const restart = document.querySelectorAll(".restart");
 restart.forEach(function(button) {
     button.addEventListener("click", function() {
-    usedTime = 0;
-    const timeDisplay = document.querySelectorAll(".elapsed");
-    timeDisplay.forEach(function(timer) {
-      timer.innerHTML = "";
-      })
-      shuffling();
-      const cards = document.querySelectorAll(".card");
-      flippedCards = [];
-      count = 0;
-      pairsMatched = 0;
-      elapsedTime;
+        usedTime = 0;
+        const timeDisplay = document.querySelectorAll(".elapsed");
+        timeDisplay.forEach(function(timer) {
+            timer.innerHTML = "";
+        });
+        shuffling();
+        const cards = document.querySelectorAll(".card");
+        flippedCards = [];
+        count = 0;
+        pairsMatched = 0;
+        //elapsedTime;
 
-      cards.forEach(function(card){
-        card.addEventListener("click",function() {
-          if (flippedCards.length < 2) {
-            if (!card.classList.contains("open")) {
-              card.classList.add("open","show");
-              addToList(card);
-              }}
-            })
-        })
-      })
-    })
+        cards.forEach(function(card) {
+            card.addEventListener("click", function() {
+                if (flippedCards.length < 2) {
+                    if (!card.classList.contains("open")) {
+                        card.classList.add("open", "show");
+                        addToList(card);
+                    }
+                }
+            });
+        });
+    });
+});
 
 const container = document.querySelector(".container");
 container.onload = shuffling();
 
 /*
  * set up the event listener for a card. If a card is clicked:
- *  - display the card's symbol (put this functionality in another function that you call from this one)
- *  - add the card to a *list* of "open" cards (put this functionality in another function that you call from this one)
+ *  - display the card's symbol (put this functionality in another function that
+ *    you call from this one)
+ *  - add the card to a *list* of "open" cards (put this functionality in
+ *    another function that you call from this one)
  *  - if the list already has another card, check to see if the two cards match
- *    + if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)
- *    + if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)
- *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
- *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
+ *    + if the cards do match, lock the cards in the open position (put this
+ *    functionality in another function that you call from this one)
+ *    + if the cards do not match, remove the cards from the list and hide the
+ *    card's symbol (put this functionality in another function that you call
+ *    from this one)
+ *    + increment the move counter and display it on the page (put this
+ *    functionality in another function that you call from this one)
+ *    + if all cards have matched, display a message with the final score (put
+ *    this functionality in another function that you call from this one)
  */
 
 const cards = document.querySelectorAll(".card");
@@ -109,70 +119,68 @@ let flippedCards = [];
 let count = 0;
 let pairsMatched = 0;
 
-cards.forEach(function(card){
-   card.addEventListener("click",function() {
-     if (flippedCards.length < 2) {
-      if (!card.classList.contains("open")) {
-      card.classList.add("open","show");
-      addToList(card);
-      }}
-    })
-  })
+cards.forEach(function(card) {
+    card.addEventListener("click", function() {
+        if (flippedCards.length < 2) {
+            if (!card.classList.contains("open")) {
+                card.classList.add("open", "show");
+                addToList(card);
+            }
+        }
+    });
+});
 
-  const addToList = function(card) {
+const addToList = function(card) {
     flippedCards.push(card);
     if (flippedCards.length === 2) {
-      if (flippedCards[0].innerHTML === flippedCards[1].innerHTML) {
-        theyMatch();
-      }
-      else {
-        setTimeout(closeCards,500);
-      }
-      increaseCount();
-      displayStars();
-      if (pairsMatched === 1) {
-        clearInterval(elapsedTime)
-        youWinModal();
-      }
+        if (flippedCards[0].innerHTML === flippedCards[1].innerHTML) {
+            theyMatch();
+        } else {
+            setTimeout(closeCards, 500);
+        }
+        increaseCount();
+        displayStars();
+        if (pairsMatched === 1) {
+            clearInterval(elapsedTime);
+            setTimeout(youWinModal, 600);
+        }
     }
-}
+};
 
 const theyMatch = function() {
-  flippedCards[0].className = "card match";
-  flippedCards[1].className = "card match";
-  flippedCards = [];
-  pairsMatched += 1;
-}
+    flippedCards[0].className = "card match";
+    flippedCards[1].className = "card match";
+    flippedCards = [];
+    pairsMatched += 1;
+};
 
 const closeCards = function() {
-  flippedCards[0].classList.remove("open","show");
-  flippedCards[1].classList.remove("open","show");
-  flippedCards = [];
-}
+    flippedCards[0].classList.remove("open", "show");
+    flippedCards[1].classList.remove("open", "show");
+    flippedCards = [];
+};
 
 const increaseCount = function() {
-  const counter = document.querySelector(".moves");
-  count += 1;
-  counter.innerHTML = count;
-}
+    const counter = document.querySelector(".moves");
+    count += 1;
+    counter.innerHTML = count;
+};
 
 const calculateStars = function() {
-  const counter = document.querySelector(".moves").innerHTML;
-  if (counter <= 10) {
-    return "<li><i class=\"fa fa-star\"></i><li><i class=\"fa fa-star\"></i><i class=\"fa fa-star\"></i>";
+    const counter = document.querySelector(".moves").innerHTML;
+    if (counter <= 10) {
+        return "<li><i class=\"fa fa-star\"></i><li><i class=\"fa fa-star\"></i><i class=\"fa fa-star\"></i>";
+    } else if (counter > 10 && counter <= 20) {
+        return "<i class=\"fa fa-star\"></i><i class=\"fa fa-star\"></i>";
+    } else {
+        return "<i class=\"fa fa-star\"></i>";
     }
-  else if (counter > 10 && counter <= 20) {
-    return "<i class=\"fa fa-star\"></i><i class=\"fa fa-star\"></i>";
-    }
-  else {
-    return "<i class=\"fa fa-star\"></i>";
-    }
-  }
+};
 
-const displayStars = function () {
-  const starsDisplay = document.querySelector(".stars");
-  starsDisplay.innerHTML = calculateStars();
-}
+const displayStars = function() {
+    const starsDisplay = document.querySelector(".stars");
+    starsDisplay.innerHTML = calculateStars();
+};
 
 
 
@@ -183,31 +191,32 @@ const displayStars = function () {
 
 const youWinModal = function() {
 
- // Get the modal
-var modal = document.getElementById('myModal');
+    // Get the modal
+    var modal = document.getElementById("myModal");
 
- // Add stars to the Modal
-modalDisplayStars();
+    // Add stars to the Modal
+    modalDisplayStars();
 
- // Get the <span> element that closes the modal
-var span = document.getElementsByClassName("close")[0];
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
 
- // Open the modal
-modal.style.display = "block";
+    // Open the modal
+    modal.style.display = "block";
 
- // When the user clicks on <span> (x), close the modal
-span.onclick = function() {
-    modal.style.display = "none";
-    }
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function() {
+        modal.style.display = "none";
+    };
 
- // Get the modal <span> element that restarts the game
-const closeModal = document.querySelector(".modalRestart");
+    // Get the modal <span> element that restarts the game
+    const closeModal = document.querySelector(".modalRestart");
 
- // When the user clicks on <span> (x), close the modal
- closeModal.onclick = function() {
-    modal.style.display = "none";
-   }
-}
+    // When the user clicks on <span> (x), close the modal
+    closeModal.onclick = function() {
+        //    modal.style.display = "none";
+        location.reload();
+    };
+};
 
 /*
  * Calculating Modal stars
@@ -215,19 +224,17 @@ const closeModal = document.querySelector(".modalRestart");
 
 const modalCalculateStars = function() {
     const counter = document.querySelector(".moves").innerHTML;
-      if (counter <= 5) {
+    if (counter <= 5) {
         return "<i class=\"fa fa-star\"></i><i class=\"fa fa-star\"></i><i class=\"fa fa-star\"></i>";
-      }
-      else if (counter > 5 && counter <= 10) {
+    } else if (counter > 5 && counter <= 10) {
         return "<i class=\"fa fa-star\"></i><i class=\"fa fa-star\"></i>";
-      }
-      else {
+    } else {
         return "<i class=\"fa fa-star\"></i>";
-      }
-}
+    }
+};
 
-const modalDisplayStars = function () {
+const modalDisplayStars = function() {
 
-const starsDisplay = document.querySelector(".modal-stars");
+    const starsDisplay = document.querySelector(".modal-stars");
     starsDisplay.innerHTML = modalCalculateStars();
-}
+};
