@@ -29,20 +29,11 @@ function shuffle(array) {
     return array;
 }
 
-/*
- * Control the timer
- */
+//Clear any timer html
+document.querySelectorAll(".elapsed").innerHTML = 0;
 
-let usedTime = 0;
-var elapsedTime = setInterval(calcTime, 1000);
-
-function calcTime() {
-    usedTime = usedTime + 1;
-    const timeDisplay = document.querySelectorAll(".elapsed");
-    timeDisplay.forEach(function(timer) {
-        timer.innerHTML = usedTime;
-    });
-}
+//Define global variable for setInterval function for timer
+let elapsedTime;
 
 // Set Up The Game
 
@@ -68,19 +59,35 @@ let innerHTML = function(whichCard) {
 const restart = document.querySelectorAll(".restart");
 restart.forEach(function(button) {
     button.addEventListener("click", function() {
+        clearInterval(elapsedTime);
         usedTime = 0;
         const timeDisplay = document.querySelectorAll(".elapsed");
         timeDisplay.forEach(function(timer) {
-            timer.innerHTML = "";
+            timer.innerHTML = "0";
         });
         shuffling();
         const cards = document.querySelectorAll(".card");
         flippedCards = [];
         count = 0;
         pairsMatched = 0;
-
+        const starsDisplay = document.querySelector(".stars");
+        starsDisplay.innerHTML = "<li><i class=\"fa fa-star\"></i><li><i class=\"fa fa-star\"></i><i class=\"fa fa-star\"></i>";
         cards.forEach(function(card) {
             card.addEventListener("click", function() {
+
+                      if (document.querySelector(".moves").innerHTML < 1 && flippedCards.length < 1) {
+
+                          let usedTime = 0;
+                          elapsedTime = setInterval(calcTime, 1000);
+                          function calcTime() {
+                              usedTime = usedTime + 1;
+                              const timeDisplay = document.querySelectorAll(".elapsed");
+                              timeDisplay.forEach(function(timer) {
+                                  timer.innerHTML = usedTime;
+                              });
+                            }
+                        };
+
                 if (flippedCards.length < 2) {
                     if (!card.classList.contains("open")) {
                         card.classList.add("open", "show");
@@ -120,6 +127,18 @@ let pairsMatched = 0;
 
 cards.forEach(function(card) {
     card.addEventListener("click", function() {
+
+        if (document.querySelector(".moves").innerHTML < 1 && flippedCards.length < 1) {
+              let usedTime = 0;
+              elapsedTime = setInterval(calcTime, 1000);
+              function calcTime() {
+                  usedTime = usedTime + 1;
+                  const timeDisplay = document.querySelectorAll(".elapsed");
+                  timeDisplay.forEach(function(timer) {
+                      timer.innerHTML = usedTime;
+                  });
+                }
+            };
         if (flippedCards.length < 2) {
             if (!card.classList.contains("open")) {
                 card.classList.add("open", "show");
@@ -210,10 +229,10 @@ const youWinModal = function() {
     // Get the modal <span> element that restarts the game
     const closeModal = document.querySelector(".modalRestart");
 
-    // When the user clicks on <span> (x), close the modal
+    // When the user clicks on restart close the modal
     closeModal.onclick = function() {
-        //    modal.style.display = "none";
-        location.reload();
+            modal.style.display = "none";
+        //location.reload();
     };
 };
 
@@ -223,9 +242,9 @@ const youWinModal = function() {
 
 const modalCalculateStars = function() {
     const counter = document.querySelector(".moves").innerHTML;
-    if (counter <= 5) {
+    if (counter <= 10) {
         return "<i class=\"fa fa-star\"></i><i class=\"fa fa-star\"></i><i class=\"fa fa-star\"></i>";
-    } else if (counter > 5 && counter <= 10) {
+    } else if (counter > 10 && counter <= 20) {
         return "<i class=\"fa fa-star\"></i><i class=\"fa fa-star\"></i>";
     } else {
         return "<i class=\"fa fa-star\"></i>";
